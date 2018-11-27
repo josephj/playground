@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TabView</title>
+    <style>
+      html, body {
+        font-size: 13px;
+        font-family: Arial;
+      }
+      [data-component=tabview] {
+        margin-bottom: 10px;
+      }
+      [role=tablist] {
+        margin: 0 0 -1px 0;
+        padding: 0;
+      }
+      [role=tab] {
+        cursor: pointer;
+        display: inline-block;
+        border-radius: 5px 5px 0 0;
+        border: solid 1px #ccc;
+        background: #eee;
+        padding: 10px;
+        margin: 0;
+      }
+      [role=tab][aria-selected=true] {
+          color: #333;
+          background: #fff;
+          border-bottom-color: #fff;
+      }
+      [role=tabpanel] {
+        border: solid 1px #ccc;
+        padding: 20px;
+      }
+      [role=tabpanel][aria-hidden=true] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabview" data-component="tabview">
+      <ul class="tablist" role="tablist">
+        <li id="tab1" aria-selected="true" class="tab" role="tab">Prices</li>
+        <li id="tab2" aria-selected="false" class="tab" role="tab">Features</li>
+        <li id="tab3" aria-selected="false" class="tab" role="tab">Blah</li>
+      </ul>
+      <div class="tabpanels">
+        <div id="panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab1">Price Content</div>
+        <div id="panel2" role="tabpanel" aria-hidden="true" aria-labelledby="tab2">Features Content</div>
+        <div id="panel3" role="tabpanel" aria-hidden="true" aria-labelledby="tab3">Blah Content</div>
+      </div>
+    </div>
+    <div class="tabview" data-component="tabview">
+      <ul class="tablist" role="tablist">
+        <li id="tab1" aria-selected="true" class="tab" role="tab">Prices</li>
+        <li id="tab2" aria-selected="false" class="tab" role="tab">Features</li>
+        <li id="tab3" aria-selected="false" class="tab" role="tab">Blah</li>
+      </ul>
+      <div class="tabpanels">
+        <div id="panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab1">Price Content</div>
+        <div id="panel2" role="tabpanel" aria-hidden="true" aria-labelledby="tab2">Features Content</div>
+        <div id="panel3" role="tabpanel" aria-hidden="true" aria-labelledby="tab3">Blah Content</div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function TabView(wrapperEl) {
+          wrapperEl.addEventListener('click', function (e) {
+            const tabEl = e.target;
+            if (!tabEl.matches('[role=tab]')) {
+              return;
+            }
+
+            if (tabEl.getAttribute('aria-selected') === 'true') {
+              return;
+            }
+
+            const activeTabEl = wrapperEl.querySelector('[role=tab][aria-selected=true]');
+            activeTabEl.setAttribute('aria-selected', 'false');
+            tabEl.setAttribute('aria-selected', 'true') ;
+
+            const activePanelEl = wrapperEl.querySelector('[role=tabpanel][aria-hidden=false]');
+            activePanelEl.setAttribute('aria-hidden', 'true');
+            const panelEl = wrapperEl.querySelector(`[aria-labelledby=${tabEl.id}]`);
+            panelEl.setAttribute('aria-hidden', 'false');
+          });
+        }
+
+        document.querySelectorAll('[data-component=tabview]').forEach(el => {
+          TabView(el);
+        });
+
+      }());
+    </script>
+  </body>
+</html>
