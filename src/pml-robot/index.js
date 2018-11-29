@@ -1,4 +1,4 @@
-function work(actionString) {
+export function work(actionString = '') {
   // The robot ignores any command that is not 'P', 'M' or 'L'
   const actions = actionString
     .split('')
@@ -20,7 +20,7 @@ function work(actionString) {
       continue;
     }
     // The robot will not go beyond position 9. Trying to Move it further does nothing.
-    if (i === 'M' && position < store.length) {
+    if (i === 'M' && position + 1 < store.length) {
       position = position + 1;
       continue;
     }
@@ -32,13 +32,14 @@ function work(actionString) {
       position = 0;
       continue;
     }
+    console.log(i);
   }
 
   return store.map((item, i) => `${i}x${Number(item).toString(16)}`).join(',');
 }
 
-console.log(work('PLPLPLPLPLPLPLPLPLPLPL'));
-console.log(
-  work('PLPLPLPLPLPLPLPLPLPLPLPLPLPLPLPMLPMLPMLPMLPMLPMLPMLPMLPMLLLPMMMMMMMML')
-);
-console.log(work('PMLPLPLPLPLPLPLPLPLPLPL'));
+// console.log(work('PLPLPLPLPLPLPLPLPLPLPL'));
+// console.log(
+//   work('PLPLPLPLPLPLPLPLPLPLPLPLPLPLPLPMLPMLPMLPMLPMLPMLPMLPMLPMLLLPMMMMMMMML')
+// );
+// console.log(work('PMLPLPLPLPLPLPLPLPLPLPL'));
