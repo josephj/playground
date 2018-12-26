@@ -1,19 +1,16 @@
-const _ = require('lodash');
-
 class CustomEvent {
   constructor() {
     this.handlers = [];
   }
   trigger(type, ...args) {
-    const handlers = _.filter(this.handlers, { type });
+    const handlers = this.handlers.filter(handler => (handler.type = type));
     handlers.forEach(handler => handler.handler(...args));
   }
   on(type, handler) {
     this.handlers.push({ type, handler });
   }
   off(type, handler) {
-    const index = _.findIndex(
-      this.handlers,
+    const index = this.handlers.filter(
       h => h.handler === handler && h.type === type
     );
     if (index > -1) {

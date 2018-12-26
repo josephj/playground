@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PureComponent from './pure-component';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div classname="App">
-        <h1>Hello World</h1>
-      </div>
+      <Router>
+        <div>
+          <Switch>
+            <Route
+              exact
+              path="/pure-component"
+              render={props => <PureComponent {...props} />}
+            />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
