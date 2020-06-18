@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PureComponent from './pure-component';
+import FunctionalComponentFocus from './functional-component-focus';
 import './App.css';
 
 class App extends Component {
@@ -14,6 +15,11 @@ class App extends Component {
               path="/pure-component"
               render={props => <PureComponent {...props} />}
             />
+            <Route
+              exact
+              path="/functional-component-focus"
+              render={props => <FunctionalComponentFocus {...props} />}
+            />            
           </Switch>
         </div>
       </Router>
