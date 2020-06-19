@@ -1,32 +1,36 @@
-import { timer } from 'rxjs';
-import  { map } from 'rxjs/operators';
-
-const getStatus = (max = 5) => {
-    const value = Math.floor(Math.random() * Math.floor(max)) + 1;
-    return value;
-};
+import { Observable } from 'rxjs';
 
 //===========
 // API Level
 //===========
-const watch$ = timer(0, 3000)
-    .pipe(
-        map(() => getStatus()),
-    );
+const getStatusCode = (max = 5) => {
+  const value = Math.floor(Math.random() * Math.floor(max)) + 1;
+  return value;
+};
+
+const watch = Observable.create(observer => {
+  const iterate = () => {
+    const code = getStatusCode(5);
+    observer.next({ status: 'not-matched', code }); // SOLVED
+    const isMatched = code === 3;
+    if (!isMatched) {
+      setTimeout(iterate, 3000);
+      return;
+    }
+
+    observer.next({ status: 'matched', code });
+    observer.complete();
+  };
+  iterate();
+});
 
 //===========
 // User Level
 //===========
-const subscription = watch$.subscribe(value => {
-    if (value === 3) {
-        console.log({status: 'matched', value});
-        subscription.unsubscribe(); // can use it forever
-    }
-    console.log({status: 'keep', value});
-});
-
+const subscribe = watch.subscribe(val => console.log(val));
 setTimeout(() => {
-    console.log({status: 'cancelled'})
-    subscription.unsubscribe()
+  console.log('unsubscribed');
+  if (!subscribe.isStopped) {
+    subscribe.unsubscribe();
+  }
 }, 10000);
-
